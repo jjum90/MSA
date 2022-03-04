@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: notification
+  datasource:
+    username: 'seok'
+    password: '1234'
+    url: jdbc:postgres://localhost:5435/notification
+  jpa:
+    show-sql : true
+    properties:
+      hibernate : org.hibernate.dialect.PostgreSQLDialect
+      format_sql : true
+    hibernate:
+      ddl-auto: 'create-drop'
+
