@@ -4,11 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class Notification {
+    @Id
     @SequenceGenerator(name = "notification_sequence_id", sequenceName = "notification_sequence_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notification_sequence_id")
     private Integer id;

@@ -9,10 +9,10 @@
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
   <modules>
-    <module>Member</module>
-    <module>Unentered</module>
-    <module>Eureka</module>
-      <module>Notification</module>
+    <module>member</module>
+    <module>unentered</module>
+    <module>eureka</module>
+      <module>notification</module>
   </modules>
 
   <name>microservice</name>

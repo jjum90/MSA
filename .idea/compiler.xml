@@ -7,10 +7,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Unentered" />
-        <module name="Member" />
-        <module name="Eureka" />
-        <module name="Notification" />
+        <module name="member" />
+        <module name="notification" />
+        <module name="unentered" />
+        <module name="eureka" />
       </profile>
     </annotationProcessing>
   </component>

@@ -1,15 +1,19 @@
+server:
+  port: 8081
+
 spring:
   application:
     name: unentered
   datasource:
     username: 'seok'
     password: '1234'
-    url: jdbc:postgres://localhost:5435/unentered
+    url: jdbc:postgresql://localhost:5432/unentered
   jpa:
-    show-sql : true
+    show-sql: true
     properties:
-      hibernate : org.hibernate.dialect.PostgreSQLDialect
-      format_sql : true
+      hibernate :
+        dialect : org.hibernate.dialect.PostgreSQLDialect
+        format_sql : true
     hibernate:
       ddl-auto: 'create-drop'
 eureka:
