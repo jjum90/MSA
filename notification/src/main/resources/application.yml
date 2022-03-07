@@ -1,0 +1,17 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: notification
+  datasource:
+    username: 'seok'
+    password: '1234'
+    url: jdbc:postgresql://localhost:5432/notification
+  jpa:
+    properties:
+      hibernate :
+        dialect : org.hibernate.dialect.PostgreSQLDialect
+        format_sql : true
+    hibernate:
+      ddl-auto: 'create-drop'
+    show-sql: true
