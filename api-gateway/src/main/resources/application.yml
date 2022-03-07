@@ -1,0 +1,35 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]' :
+           allowedOrigins: "*"
+           allowedHeaders:
+             - x-requested-with
+             - authorization
+             - content-type
+             - credential
+           allowedMethods:
+             - POST
+             - GET
+             - PUT
+             - DELETE
+             - OPTIONS
+      routes:
+        - id: member
+          uri: lb://MEMBER
+          predicates:
+            - Path=/api/v1/members/**
+        - id: fraud
+          uri: lb://UNETERED
+          predicates:
+            - Path=/api/v1/unentered/**
+        - id: notification
+          uri: lb://NOTIFICATION
+          predicates:
+            - Path=/api/v1/notification/**

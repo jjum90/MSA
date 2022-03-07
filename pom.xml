@@ -13,6 +13,7 @@
     <module>unentered</module>
     <module>eureka</module>
       <module>notification</module>
+      <module>api-gateway</module>
   </modules>
 
   <name>microservice</name>
