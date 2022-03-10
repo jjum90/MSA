@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="member" />
         <module name="api-gateway" />
+        <module name="feign-clients" />
         <module name="notification" />
         <module name="unentered" />
         <module name="eureka" />

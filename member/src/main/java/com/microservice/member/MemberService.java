@@ -1,32 +1,37 @@
 package com.microservice.member;
 
+import com.microservice.clients.notification.NotificationClient;
+import com.microservice.clients.notification.dto.NotificationDto;
+import com.microservice.clients.unentered.UnenteredClient;
+import com.microservice.clients.unentered.dto.UnenteredCheckHistoryDto;
 import com.microservice.member.dto.MemberDto;
-import com.microservice.member.dto.UnenteredCheckHistoryDto;
 import com.microservice.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final RestTemplate restTemplate;
+    private final UnenteredClient unenteredClient;
+    private final NotificationClient notificationClient;
     public void register(MemberDto.Request memberRequest) {
         Member member = memberRequest.toEntity();
         memberRepository.saveAndFlush(member);
 
         // check unentered member
-
-        // Sending notifications using restTemplate
-        UnenteredCheckHistoryDto.Response response = restTemplate.getForObject("http://UNENTERED/api/v1/unentered/{memberId}",
-                UnenteredCheckHistoryDto.Response.class,
-                member.getId());
-
+        UnenteredCheckHistoryDto.Response response = unenteredClient.isUnentered(member.getId());
         if(response.isUnentered()) {
             throw new IllegalStateException("not join member");
         }
+
+        // Send notification
+        notificationClient.sendNotification(NotificationDto.Request
+                .builder()
+                .memberId(member.getId())
+                .message("Thank you join us!!!")
+                .sender("seok")
+                .build()
+        );
     }
 }

@@ -1,4 +1,4 @@
-package com.microservice.member.dto;
+package com.microservice.clients.unentered.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
