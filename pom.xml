@@ -15,6 +15,7 @@
       <module>notification</module>
       <module>api-gateway</module>
     <module>feign-clients</module>
+      <module>rabbitmq</module>
   </modules>
 
   <name>microservice</name>

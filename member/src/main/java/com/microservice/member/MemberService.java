@@ -1,5 +1,6 @@
 package com.microservice.member;
 
+import com.microservice.amqp.RabbitMQProducer;
 import com.microservice.clients.notification.NotificationClient;
 import com.microservice.clients.notification.dto.NotificationDto;
 import com.microservice.clients.unentered.UnenteredClient;
@@ -14,7 +15,8 @@ import org.springframework.stereotype.Service;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final UnenteredClient unenteredClient;
-    private final NotificationClient notificationClient;
+    private final RabbitMQProducer rabbitMQProducer;
+//    private final NotificationClient notificationClient;
     public void register(MemberDto.Request memberRequest) {
         Member member = memberRequest.toEntity();
         memberRepository.saveAndFlush(member);
@@ -24,14 +26,22 @@ public class MemberService {
         if(response.isUnentered()) {
             throw new IllegalStateException("not join member");
         }
-
-        // Send notification
-        notificationClient.sendNotification(NotificationDto.Request
+        NotificationDto.Request notificationRequest = NotificationDto.Request
                 .builder()
                 .memberId(member.getId())
                 .message("Thank you join us!!!")
                 .sender("seok")
-                .build()
-        );
+                .build();
+        // Send notification
+        rabbitMQProducer.publish("internal.exchange", "internal.notification.routing-key", notificationRequest);
+//        notificationClient.sendNotification(NotificationDto.Request
+//                .builder()
+//                .memberId(member.getId())
+//                .message("Thank you join us!!!")
+//                .sender("seok")
+//                .build()
+//        );
+
+
     }
 }
