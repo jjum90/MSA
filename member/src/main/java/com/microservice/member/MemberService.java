@@ -32,7 +32,8 @@ public class MemberService {
                 .message("Thank you join us!!!")
                 .sender("seok")
                 .build();
-        // Send notification
+
+        // Send notification by rabbitMQ
         rabbitMQProducer.publish("internal.exchange", "internal.notification.routing-key", notificationRequest);
 //        notificationClient.sendNotification(NotificationDto.Request
 //                .builder()

@@ -16,6 +16,7 @@
       <module>api-gateway</module>
     <module>feign-clients</module>
       <module>rabbitmq</module>
+      <module>batch</module>
   </modules>
 
   <name>microservice</name>

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Notification {
     @Id
-    @SequenceGenerator(name = "notification_sequence_id", sequenceName = "notification_sequence_id")
+    @SequenceGenerator(name = "notification_sequence_id", sequenceName = "notification_sequence_id", initialValue = 1, allocationSize = 50)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notification_sequence_id")
     private Integer id;
     private Integer memberId;

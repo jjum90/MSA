@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  */
 public class Member {
     @Id
-    @SequenceGenerator(name = "member_id_sequence", sequenceName = "member_id_sequence")
+    @SequenceGenerator(name = "member_id_sequence", sequenceName = "member_id_sequence", initialValue = 1, allocationSize = 50)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_id_sequence")
     private Integer id;
     private String email;

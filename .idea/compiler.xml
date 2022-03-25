@@ -12,6 +12,7 @@
         <module name="eureka" />
         <module name="member" />
         <module name="api-gateway" />
+        <module name="batch" />
         <module name="unentered" />
         <module name="rabbitmq" />
       </profile>
