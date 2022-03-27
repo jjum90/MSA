@@ -1,4 +1,4 @@
-# msa
+# Micro Service Architecture
 
 ## Q. 본 프로젝트의 목적은 무엇인가?
 
