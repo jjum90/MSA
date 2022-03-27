@@ -16,3 +16,7 @@
 4. 네 번째 문제점 - 알림 전송 시의 병목현상과 전송 성공, 실패 관리
 * Message Queue를 이용한 비동기식 메시지 처리
 
+
+# 아키텍처
+
+![image](https://user-images.githubusercontent.com/19419438/160290362-db3e08f3-e246-465b-a18f-a24aecfc07ca.png)
