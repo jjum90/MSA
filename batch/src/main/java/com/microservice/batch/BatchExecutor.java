@@ -19,6 +19,9 @@ import org.springframework.batch.core.repository.JobRestartException;
 
 import java.time.LocalDateTime;
 
+/**
+ * Quartz 스케줄링 및 batch 실행
+ */
 @RequiredArgsConstructor
 @Slf4j
 public class BatchExecutor implements org.quartz.Job {

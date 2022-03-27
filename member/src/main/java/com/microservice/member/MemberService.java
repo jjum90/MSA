@@ -16,12 +16,11 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final UnenteredClient unenteredClient;
     private final RabbitMQProducer rabbitMQProducer;
-//    private final NotificationClient notificationClient;
     public void register(MemberDto.Request memberRequest) {
         Member member = memberRequest.toEntity();
         memberRepository.saveAndFlush(member);
 
-        // check unentered member
+        // 가입되지 않은 멤버 체크
         UnenteredCheckHistoryDto.Response response = unenteredClient.isUnentered(member.getId());
         if(response.isUnentered()) {
             throw new IllegalStateException("not join member");
@@ -33,16 +32,7 @@ public class MemberService {
                 .sender("seok")
                 .build();
 
-        // Send notification by rabbitMQ
+        // rabbitMQ를 이용한 알림 전송
         rabbitMQProducer.publish("internal.exchange", "internal.notification.routing-key", notificationRequest);
-//        notificationClient.sendNotification(NotificationDto.Request
-//                .builder()
-//                .memberId(member.getId())
-//                .message("Thank you join us!!!")
-//                .sender("seok")
-//                .build()
-//        );
-
-
     }
 }

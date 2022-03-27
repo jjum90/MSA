@@ -22,6 +22,10 @@ import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * spring batch 및 Quartz 스케줄링에 필요한 bean 등록
+ *
+ */
 @Configuration
 @RequiredArgsConstructor
 public class BatchConfig {
