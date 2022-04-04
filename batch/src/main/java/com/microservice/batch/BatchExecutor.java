@@ -27,22 +27,24 @@ import java.time.LocalDateTime;
 public class BatchExecutor implements org.quartz.Job {
     private final JobLauncher jobLauncher;
     private final JobLocator jobLocator;
-    private static final String JOB_NAME_KEY = "job";
-    private static final String JOB_PARAMETERS_INSTANCE_ID_KEY = "InstanceId";
-    private static final String JOB_PARAMETERS_TIMESTAMP_KEY = "timestamp";
+//    private static final String JOB_NAME_KEY = "job";
+//    private static final String JOB_PARAMETERS_INSTANCE_ID_KEY = "InstanceId";
+//    private static final String JOB_PARAMETERS_TIMESTAMP_KEY = "timestamp";
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         log.info("Start quartz scheduler in {}", LocalDateTime.now());
         try {
-            JobDataMap jobDataMap = jobExecutionContext.getMergedJobDataMap();
-            String jobName = (String) jobDataMap.get(JOB_NAME_KEY);
+//            JobDataMap jobDataMap = jobExecutionContext.getMergedJobDataMap();
+//            String jobName = (String) jobDataMap.get(JOB_NAME_KEY);
+//            JobParameters jobParameters = new JobParametersBuilder()
+//                    .addString(JOB_PARAMETERS_INSTANCE_ID_KEY, jobExecutionContext.getScheduler().getSchedulerInstanceId())
+//                    .addLong(JOB_PARAMETERS_TIMESTAMP_KEY, System.currentTimeMillis())
+//                    .toJobParameters();
+            String jobName = BatchHandler.getJobName(jobExecutionContext);
             log.info("Job name info : {}", jobName);
             Job job = jobLocator.getJob(jobName);
-            JobParameters jobParameters = new JobParametersBuilder()
-                    .addString(JOB_PARAMETERS_INSTANCE_ID_KEY, jobExecutionContext.getScheduler().getSchedulerInstanceId())
-                    .addLong(JOB_PARAMETERS_TIMESTAMP_KEY, System.currentTimeMillis())
-                    .toJobParameters();
+            JobParameters jobParameters = BatchHandler.getParameters(jobExecutionContext);
             log.info("Job parameters info : {}", jobParameters);
             jobLauncher.run(job, jobParameters);
         } catch (NoSuchJobException | JobExecutionAlreadyRunningException | JobRestartException | JobInstanceAlreadyCompleteException | JobParametersInvalidException | SchedulerException e) {
