@@ -40,10 +40,9 @@ public class BatchConfig {
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
     private static final String JOB_KEY = "job";
-    private static final String JOB_NAME = "readMailJob";
-    private static final String STEP_KEY = "step";
+    private static final String JOB_NAME = "mailJob";
+    private static final String STEP_NAME = "mailStep";
     private static final int CHUNCK_SIZE = 10;
-//    private static final String JOB_NAME= "mailJob";
 //    private static final String READ_STEP_NAME = "readMailStep";
 //    private static final String SEND_STEP_NAME = "sendMailStep";
     /**
@@ -89,14 +88,14 @@ public class BatchConfig {
      */
     @Bean
     public Job jpaPagingMailReaderJob() {
-        return jobBuilderFactory.get(JOB_KEY)
+        return jobBuilderFactory.get(JOB_NAME)
                 .start(jpaPagingMailReaderStep())
                 .build();
     }
 
     @Bean
     public Step jpaPagingMailReaderStep() {
-        return stepBuilderFactory.get(STEP_KEY)
+        return stepBuilderFactory.get(STEP_NAME)
                 .<Notification, Notification>chunk(CHUNCK_SIZE) // 얼마나 일괄 처리 할 것인지?
                 .reader(jpaPagingMailReader())
                 .writer(jpaPagingMailWriter())
@@ -110,7 +109,7 @@ public class BatchConfig {
                 .name("jpaPagingMailReader")
                 .entityManagerFactory(entityManagerFactory)
                 .pageSize(CHUNCK_SIZE) // 얼마나 읽어들일 것인지?
-                .queryString("SELECT n FROM Notification n ORDER BY ASC")
+                .queryString("SELECT n FROM Notification n ORDER BY n.send_at")
                 .build();
     }
 
