@@ -1,7 +1,7 @@
 package com.microservice.notification.rabbitmq;
 
+import com.microservice.clients.notification.dto.NotificationDto;
 import com.microservice.notification.NotificationService;
-import com.microservice.notification.dto.NotificationDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

@@ -1,6 +1,6 @@
 package com.microservice.notification;
 
-import com.microservice.notification.dto.NotificationDto;
+import com.microservice.clients.notification.dto.NotificationDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
