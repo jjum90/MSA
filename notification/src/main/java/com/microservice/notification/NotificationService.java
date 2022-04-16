@@ -2,6 +2,7 @@ package com.microservice.notification;
 
 import com.microservice.clients.notification.dto.NotificationDto;
 import com.microservice.notification.entity.Notification;
+import com.microservice.notification.entity.NotificationStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ public class NotificationService {
                     .sender(notificationRequest.getSender())
                     .message(notificationRequest.getMessage())
                     .sendAt(LocalDateTime.now())
+                    .status(NotificationStatus.PENDING)
                     .build()
         );
         log.info("New notification is saved");

@@ -1,25 +1,17 @@
 package com.microservice.batch;
 
 import com.microservice.notification.entity.Notification;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.*;
-import org.quartz.impl.triggers.CronTriggerImpl;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.JobFactory;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor;
-import org.springframework.batch.core.jsr.configuration.xml.JobFactoryBean;
-import org.springframework.batch.core.jsr.configuration.xml.StepFactoryBean;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
-import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
@@ -109,7 +101,7 @@ public class BatchConfig {
                 .name("jpaPagingMailReader")
                 .entityManagerFactory(entityManagerFactory)
                 .pageSize(CHUNCK_SIZE) // 얼마나 읽어들일 것인지?
-                .queryString("SELECT n FROM Notification n ORDER BY n.send_at")
+                .queryString("SELECT n FROM Notification n ORDER BY n.sendAt")
                 .build();
     }
 

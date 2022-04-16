@@ -10,7 +10,10 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  * notification message 일괄 처리 작업
  * Quartz 스케줄러와 Spring batch를 사용
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {
+        "com.microservice.batch",
+        "com.microservice.notification"
+})
 @EnableEurekaClient
 @EnableBatchProcessing
 public class BatchApplication {
