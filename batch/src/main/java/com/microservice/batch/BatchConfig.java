@@ -105,6 +105,7 @@ public class BatchConfig {
                 .build();
     }
 
+    @Bean
     public ItemWriter<Notification> jpaPagingMailWriter() {
         return list -> {
             for (Notification notification : list) {
