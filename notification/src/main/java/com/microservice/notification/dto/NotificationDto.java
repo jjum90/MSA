@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.aspectj.weaver.ast.Not;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class NotificationDto {
@@ -27,8 +30,11 @@ public class NotificationDto {
     @NoArgsConstructor
     @Builder
     public static class Request {
+        @NotNull
         private Integer memberId;
+        @NotBlank
         private String sender;
+        @NotBlank
         private String message;
 
         public Notification toEntity() {

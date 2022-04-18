@@ -3,6 +3,8 @@ package com.microservice.member.dto;
 import com.microservice.member.entity.Member;
 import lombok.*;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 public class MemberDto {
@@ -23,8 +25,11 @@ public class MemberDto {
     @AllArgsConstructor
     @Builder
     public static class Request {
+        @Email
         private String email;
+        @NotBlank
         private String lastName;
+        @NotBlank
         private String firstName;
 
         public Member toEntity(){
