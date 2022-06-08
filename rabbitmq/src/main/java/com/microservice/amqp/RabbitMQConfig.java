@@ -1,8 +1,7 @@
 package com.microservice.amqp;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -16,6 +15,10 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class RabbitMQConfig {
     private final ConnectionFactory connectionFactory;
+    private final static String EXCHANGE_NAME = "internal.exchange";
+    private final static String QUEUE_NAME = "notification.queue";
+    private final static String ROUTING_KEY = "internal.notification.routing-key";
+
     /**
      * Publisher bean 생성
      * @return
@@ -25,6 +28,21 @@ public class RabbitMQConfig {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(jacksonConverter());
         return rabbitTemplate;
+    }
+
+    @Bean
+    public TopicExchange exchange () {
+        return new TopicExchange(EXCHANGE_NAME);
+    }
+
+    @Bean
+    public Queue queue() {
+        return new Queue(QUEUE_NAME, true);
+    }
+
+    @Bean
+    public Binding binding () {
+        return BindingBuilder.bind(queue()).to(exchange()).with(ROUTING_KEY);
     }
 
     @Bean
