@@ -31,12 +31,6 @@ feign:
         readTimeout: 30000
         loggerLevel: FULL
 
-logging:
-  level:
-    com:
-      microservice:
-        clients: debug
-
 eureka:
   client:
     service-url:
