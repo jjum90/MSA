@@ -19,6 +19,7 @@ public class UnenteredController {
     @GetMapping(path = "{memberId}")
     public UnenteredCheckHistoryDto.Response isUnentered(@PathVariable("memberId") Integer memberId){
         log.info("check for unentered member {}", memberId);
+
         boolean isUnentered = unenteredService.isUnenteredMember(memberId);
         return new UnenteredCheckHistoryDto.Response(isUnentered);
     }

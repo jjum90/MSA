@@ -23,6 +23,7 @@ public class UnenteredCheckHistoryDto {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
+    @Builder
     public static class Response {
         private boolean isUnentered;
     }

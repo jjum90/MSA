@@ -5,8 +5,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "unentered")
+@FeignClient(name = "unentered", fallbackFactory = UnenteredClientFallbackFactory.class, configuration = {UnenteredClientRetryConfig.class})
 public interface UnenteredClient {
     @GetMapping(path = "api/v1/unentered/{memberId}")
-    public UnenteredCheckHistoryDto.Response isUnentered(@PathVariable("memberId") Integer memberId);
+    UnenteredCheckHistoryDto.Response isUnentered(@PathVariable("memberId") Integer memberId);
 }

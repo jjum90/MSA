@@ -8,6 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication(
         scanBasePackages = {
                 "com.microservice.member",
+                "com.microservice.clients",
                 "com.microservice.amqp"
         }
 )

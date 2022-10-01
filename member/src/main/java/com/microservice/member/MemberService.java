@@ -9,6 +9,9 @@ import com.microservice.member.dto.MemberDto;
 import com.microservice.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +23,9 @@ public class MemberService {
         Member member = memberRequest.toEntity();
         memberRepository.saveAndFlush(member);
 
-        // 가입되지 않은 멤버 체크
+        // 가입 되지 않은 멤버 체크
         UnenteredCheckHistoryDto.Response response = unenteredClient.isUnentered(member.getId());
+
         if(response.isUnentered()) {
             throw new IllegalStateException("not join member");
         }

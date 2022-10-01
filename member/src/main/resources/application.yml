@@ -20,6 +20,23 @@ spring:
     base-url: http://localhost:9411
   rabbitmq:
     addresses: localhost:5672
+
+feign:
+  circuitbreaker:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 30000
+        readTimeout: 30000
+        loggerLevel: FULL
+
+logging:
+  level:
+    com:
+      microservice:
+        clients: debug
+
 eureka:
   client:
     service-url:
