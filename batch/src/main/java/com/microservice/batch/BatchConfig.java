@@ -9,8 +9,10 @@ import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor;
-import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.JpaPagingItemReader;
+import org.springframework.batch.item.database.builder.JpaItemWriterBuilder;
 import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +36,9 @@ public class BatchConfig {
     private static final String JOB_KEY = "job";
     private static final String JOB_NAME = "mailJob";
     private static final String STEP_NAME = "mailStep";
-    private static final int CHUNCK_SIZE = 10;
+    private static final String READER_NAME = "jpaPagingMailReader";
+
+    private static final int CHUNK_SIZE = 5;
 //    private static final String READ_STEP_NAME = "readMailStep";
 //    private static final String SEND_STEP_NAME = "sendMailStep";
     /**
@@ -79,17 +83,18 @@ public class BatchConfig {
      * jpa를 이용하여 Page만큼 db에서 data 읽어오기
      */
     @Bean
-    public Job jpaPagingMailReaderJob() {
+    public Job jpaPagingMailJob() {
         return jobBuilderFactory.get(JOB_NAME)
-                .start(jpaPagingMailReaderStep())
+                .start(jpaPagingMailStep())
                 .build();
     }
 
     @Bean
-    public Step jpaPagingMailReaderStep() {
+    public Step jpaPagingMailStep() {
         return stepBuilderFactory.get(STEP_NAME)
-                .<Notification, Notification>chunk(CHUNCK_SIZE) // 얼마나 일괄 처리 할 것인지?
+                .<Notification, Notification>chunk(CHUNK_SIZE) // 얼마나 일괄 처리 할 것인지?
                 .reader(jpaPagingMailReader())
+                .processor(jpaItemProcessor())
                 .writer(jpaPagingMailWriter())
                 .build();
 
@@ -98,20 +103,28 @@ public class BatchConfig {
     @Bean
     public JpaPagingItemReader<Notification> jpaPagingMailReader() {
         return new JpaPagingItemReaderBuilder<Notification>()
-                .name("jpaPagingMailReader")
+                .name(READER_NAME)
                 .entityManagerFactory(entityManagerFactory)
-                .pageSize(CHUNCK_SIZE) // 얼마나 읽어들일 것인지?
+                .pageSize(CHUNK_SIZE) // 얼마나 읽어들일 것인지?
                 .queryString("SELECT n FROM Notification n ORDER BY n.sendAt")
                 .build();
     }
 
     @Bean
-    public ItemWriter<Notification> jpaPagingMailWriter() {
-        return list -> {
-            for (Notification notification : list) {
-                log.info("Current Notification info {}", notification);
-            }
-        };
+    public ItemProcessor<Notification, Notification> jpaItemProcessor() {
+        return notification -> notification.updateSuccess();
+    }
+
+    @Bean
+    public JpaItemWriter<Notification> jpaPagingMailWriter() {
+        return new JpaItemWriterBuilder<Notification>()
+                .entityManagerFactory(entityManagerFactory)
+                .build();
+//        return list -> {
+//            for (Notification notification : list) {
+//                log.info("Current Notification info {}", notification);
+//            }
+//        };
     }
 
     /**

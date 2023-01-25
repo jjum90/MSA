@@ -23,4 +23,9 @@ public class Notification {
     private LocalDateTime sendAt;
     @Enumerated(EnumType.STRING)
     private NotificationStatus status;
+
+    public Notification updateSuccess() {
+        this.status = NotificationStatus.SUCCESS;
+        return this;
+    }
 }
